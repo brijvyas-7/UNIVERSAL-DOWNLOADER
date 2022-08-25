@@ -1,3 +1,5 @@
+from pytube import YouTube
+from cProfile import label
 import youtube_dl as yt
 from tkinter import *
 from tkinter import Tk, font, ttk
@@ -49,13 +51,15 @@ def download():
         res = int(res[:res.find('-')].strip())
         
         ydl_opts = {'format': f'{res}', 
-                    'outtmpl': r'C:\Users\rohit\Downloads\Animated Skills Bars (1)\%(title)s.%(ext)s'}  # specify your download path here
+                    'outtmpl': r'C:\Users\rohit\Downloads\Animated Skills \%(title)s.%(ext)s'} # specify your download path here
 
         url = link.get()
         
         with yt.YoutubeDL(ydl_opts) as ydl: 
-            ydl.download([url])
-
+         ydl.download([url]),
+         Label_1=Label(root, text="video downloaded sucsessfuly", font='arial 10',bg="grey").place(x=650,y=250)
+            
+        
     else:
         error.config(text='Invalid resolution', fg='red')
         error.place(x=150, y=210)
@@ -67,7 +71,8 @@ def hide():
 
 root = Tk()
 root.state('zoomed')
-root.title('YouTube Video Downloader')
+root.configure(bg="grey")
+root.title('universal downloader')
 
 link = StringVar()
 option_lst = StringVar()
@@ -75,12 +80,12 @@ option_lst = StringVar()
 link.trace('w', display_options)
 option_lst.set('resolution')
 
-link_here = Label(root, text="YouTube video link Paste Here", font='arial 15 bold',pady=50)
+link_here = Label(root, text="YouTube video link Paste Here", font='arial 15 bold',pady=50,fg="white",bg="grey")
 link_here.pack()
 
-title = Label(root, text='',padx=260,pady=15)
+title = Label(root, text='',padx=340,pady=15,bg="grey",fg="red")
 title.place(x=220, y=210)
-error = Label(root, text='',padx=600,pady=30)
+error = Label(root, text='',padx=600,pady=30,bg="grey")
 error.place(x=220, y=210)
 
 options = ttk.Combobox(root, textvariable=option_lst, state="readonly") 
@@ -88,6 +93,8 @@ options.place(x=600, y=200)
 
 pasted = Entry(root,width=70,textvariable=link,)
 pasted.pack()
+
+
 
 Button(root,text="Download Video", width=20, bg="black", fg="gray", command=download).place(x=800,y=195)
 
